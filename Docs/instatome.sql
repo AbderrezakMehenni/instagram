@@ -3,13 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 17 juil. 2023 à 12:08
+-- Généré le : lun. 17 juil. 2023 à 13:08
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
-
-CREATE DATABASE IF NOT EXISTS instatome;
-
-USE instatome;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,13 +29,15 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE IF NOT EXISTS `comment` (
-  `id_user` bigint NOT NULL,
-  `id_post` bigint NOT NULL,
-  `contenu` text,
+  `id_comment` bigint NOT NULL AUTO_INCREMENT,
+  `content` text NOT NULL,
   `date_heure` datetime DEFAULT NULL,
-  PRIMARY KEY (`id_user`,`id_post`),
-  KEY `id_post` (`id_post`)
-)
+  `id_post` bigint NOT NULL,
+  `id_user` bigint NOT NULL,
+  PRIMARY KEY (`id_comment`),
+  KEY `id_post` (`id_post`),
+  KEY `id_user` (`id_user`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -53,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `follow` (
   `id_user_follow` bigint NOT NULL,
   PRIMARY KEY (`id_user`,`id_user_follow`),
   KEY `id_user_follow` (`id_user_follow`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -67,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `likes` (
   `id_post` bigint NOT NULL,
   PRIMARY KEY (`id_user`,`id_post`),
   KEY `id_post` (`id_post`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -83,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `content` text,
   PRIMARY KEY (`id_user`,`id_user_send`),
   KEY `id_user_send` (`id_user_send`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -100,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `id_user` bigint NOT NULL,
   PRIMARY KEY (`id_post`),
   KEY `id_user` (`id_user`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -114,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `post_tag` (
   `id_tag` bigint NOT NULL,
   PRIMARY KEY (`id_post`,`id_tag`),
   KEY `id_tag` (`id_tag`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -127,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `id_tag` bigint NOT NULL AUTO_INCREMENT,
   `tag` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_tag`)
-)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -143,17 +141,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `avatar` text,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `pseudo` (`pseudo`)
-)
-
---
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`id_user`, `pseudo`, `mdp`, `avatar`) VALUES
-(1, 'Jeremey', 'd8c93860c7892dc6d662f4493e4ffd71badeab64', 'jeremey.png'),
-(2, 'Vincenzo', '27b7c809b569e2a89c84826e023cba4db292066a', 'vincenzo.jpg'),
-(3, 'Abdoul', 'd1f74df3136f09cfe5fbd2a2ec0fdd15aa74e1b4', 'abdoul.jpg'),
-(4, 'Juney', '24da17d50002e4927a0eeba6b5d507ef8006d62c', 'juney.png');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

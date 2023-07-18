@@ -6,7 +6,7 @@ include_once('partials/header.php');
 ?>
 <section class="container d-flex align-items-center vh-100 justify-content-center">
     <div class="row justify-content-center w-100">
-        <div class="bg-test col-6 mt-5 mb-5 p-5 rounded-4">
+        <div class="bg-test col-12 mt-5 mb-5 p-5 rounded-4">
             <form method="POST" class="text-center" action="./process/process_connexion.php">
                 <input type="text" name="pseudo" class=" input form-control mb-5" size="80" placeholder="Votre pseudo">
                 <input type="text" name="mdp" class=" input form-control mb-5" size="80" placeholder="Votre mot de passe">

@@ -13,13 +13,15 @@ require_once('../utils/db-connect.php');
 * @return Boolean Retourne true si l'insert à réussi, false sinon.
 * */
 function createPost($mediaName, $description, $userId) {
+    global $db;
+
     $sql = 'INSERT INTO posts (photo, description, date_heure, id_user) VALUES (:media, :description, NOW(), :user);';
 
     $request = $db->prepare($sql);
 
-    $request->bindParam(':media', $mediaName, PDO:PARAM_STR);
-    $request->bindParam(':description', $description, PDO:PARAM_STR);
-    $request->bindParam(':user', $userId, PDO:PARAM_STR);
+    $request->bindParam(':media', $mediaName, PDO::PARAM_STR);
+    $request->bindParam(':description', $description, PDO::PARAM_STR);
+    $request->bindParam(':user', $userId, PDO::PARAM_STR);
 
     $insertOk = $request->execute();
 
@@ -28,16 +30,35 @@ function createPost($mediaName, $description, $userId) {
 
 /* ** 
 * */
-function getLastIdTag() {
-    $sql = 'SELECT MAX(id_tag) FROM tags;';
+function getLastIdPost() {
+    global $db;
+
+    $sql = 'SELECT MAX(id_post) id FROM posts;';
 
     $request = $db->prepare($sql);
 
     $request->execute();
 
-    $lastId = $request->fetch();
+    $lastId = $request->fetch(PDO::FETCH_ASSOC);
 
-    return $lastId;
+    return $lastId['id'];
+
+}
+
+/* ** 
+* */
+function getLastIdTag() {
+    global $db;
+
+    $sql = 'SELECT MAX(id_tag) id FROM tags;';
+
+    $request = $db->prepare($sql);
+
+    $request->execute();
+
+    $lastId = $request->fetch(PDO::FETCH_ASSOC);
+
+    return $lastId['id'];
 
 }
 
@@ -48,6 +69,8 @@ function getLastIdTag() {
 * @return Array Un tableau des derniers id des tags insérés.
 * */
 function createTags($tags) {
+    global $db;
+
     $lastIds = [];
 
     foreach($tags as $tag) {
@@ -55,7 +78,7 @@ function createTags($tags) {
 
         $request = $db->prepare($sql);
 
-        $request->bindParam(':tag', $tag, PDO:PARAM_STR);
+        $request->bindParam(':tag', $tag, PDO::PARAM_STR);
 
         $insertOk = $request->execute();
 
@@ -73,18 +96,26 @@ function createTags($tags) {
 * 
 * @param Int $post L'id d'un post.
 * @param Array $tags Un tableau contenant les ids des derniers tags insérés.
+*
+* @return Boolean Retourne true si l'insert est un succès, false sinon.
 * */
 function createPostTags($post, $tags) {
+    global $db;
+
+    $insertOk = false;
+
     foreach($tags as $tag) {
         $sql = 'INSERT INTO post_tag (id_post, id_tag) VALUES (:post, :tag);';
 
         $request = $db->prepare($sql);
 
-        $request->bindParam(':post', $post, PDO:PARAM_INT);
-        $request->bindParam(':tag', $tag, PDO:PARAM_INT);
+        $request->bindParam(':post', $post, PDO::PARAM_INT);
+        $request->bindValue(':tag', $tag, PDO::PARAM_INT);
 
         $insertOk = $request->execute();
     }
+
+    return $insertOk;
 }
 
 /* ** Gère globalement les insertions en base de données.
@@ -104,10 +135,11 @@ function dbInsertManager($media, $description, $tags, $user) {
     );
 
     if ($postCreated) {
+        $lastPost = getLastIdPost();
         $idTagsCreated = createTags(explode(' ', $tags));
 
         if (count($idTagsCreated) > 0) {
-            $postTagsCreated = createPostTag($lastPost, $idTagsCreated);
+            $postTagsCreated = createPostTags($lastPost, $idTagsCreated);
 
             if ($postTagsCreated) {
                 return 0;
@@ -145,7 +177,11 @@ function createNewPost() {
             );
 
             if ($dbInsertStatus === 0) {
-                header('Location:../profil.php?newpost=true');
+                if (move_uploaded_file($_FILES["media"]["name"], $targetFile)) {
+                    header('Location:../profil.php?newpost=true');
+                } else {
+                    header('Location:../post.php?newpost=false&status=76');
+                }
             } else {
                 header('Location:../post.php?newpost=false&status=' . $dbInsertStatus);
             }

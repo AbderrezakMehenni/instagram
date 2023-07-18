@@ -1,18 +1,17 @@
 <?php
-    require_once('../utils/db-connect.php');
+require_once('utils/db-connect.php');
+session_start();
+$idUserValue = $_SESSION['id_user'];
 
-    $UserId = 1;
-    $query="SELECT users.id_user, users.pseudo, messages.id_user_send
-            FROM messages
-            INNER JOIN users ON users.id_user = messages.id_user_send
-            WHERE messages.id_user = $UserId";
+// Sélectionne le pseudo et l'id pour afficher ses messages
+$queryUsersMessages="SELECT DISTINCT u.id_user, u.pseudo
+                    FROM users u
+                    INNER JOIN messages m ON u.id_user = m.id_user_send
+                    WHERE m.id_user = :userId";
 
-    $result = $db->query($query);
+$stmtUsersMessages = $db->prepare($queryUsersMessages);
+$stmtUsersMessages->bindParam(':userId', $userId, PDO::PARAM_INT); // Remplace $userId par l'ID de l'utilisateur actuel
+$stmtUsersMessages->execute();
 
-    if ($result !== false && $result->rowCount() > 0) {
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            echo "Message de " . $row["pseudo"] . ": <br>";
-        }
-    } else {
-        echo "Aucun message privé trouvé.";
-    }
+$usersMessages = $stmtUsersMessages->fetchAll(PDO::FETCH_ASSOC);
+?>

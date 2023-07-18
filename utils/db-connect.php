@@ -1,6 +1,7 @@
 <?php
 
-    $env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/.env'); // DOCUMENT_ROOT va chercher la racine sous laquelle le script courant est exécuté, comme défini dans la configuration du serveur.
+// DOCUMENT_ROOT va chercher la racine sous laquelle le script courant est exécuté, comme défini dans la configuration du serveur.
+$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/.env');
 
     $address = $env['LOCAL_ADDRESS'];
 

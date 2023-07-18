@@ -3,33 +3,38 @@ require_once('utils/db-connect.php');
 session_start();
 $pseudoValue = $_SESSION['pseudo'];
 
-$queryUserId = "SELECT id_user FROM users WHERE pseudo = :pseudo";
-$stmtUserId = $db->prepare($queryUserId);
-$stmtUserId->bindParam(':pseudo', $pseudoValue, PDO::PARAM_STR);
-$stmtUserId->execute();
+// Récupère l'ID de l'utilisateur sélectionné depuis l'URL
+if (isset($_GET['id_user'])) {
+    $selectedUserId = $_GET['id_user'];
 
-$resultUserId = $stmtUserId->fetch(PDO::FETCH_ASSOC);
-if ($resultUserId !== false && !empty($resultUserId["id_user"])) {
-    $userId = $resultUserId["id_user"];
+    // Récupère le pseudo de l'utilisateur sélectionné
+    $querySelectedUser = "SELECT pseudo FROM users WHERE id_user = :selectedUserId";
+    $stmtSelectedUser = $db->prepare($querySelectedUser);
+    $stmtSelectedUser->bindParam(':selectedUserId', $selectedUserId, PDO::PARAM_INT);
+    $stmtSelectedUser->execute();
+    $selectedUser = $stmtSelectedUser->fetch(PDO::FETCH_ASSOC);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['message']) && !empty($_POST['message'])) {
-            $messageContent = $_POST['message'];
-            $date_heure = date('Y-m-d H:i:s');
+    if ($selectedUser !== false) {
+        // Récupère tous les messages entre l'utilisateur actuel et l'utilisateur sélectionné
+        $queryMessages="SELECT m.content, m.date_heure, u.pseudo AS sender
+                        FROM messages m
+                        INNER JOIN users u ON m.id_user_send = u.id_user
+                        WHERE (m.id_user = :id_user AND m.id_user_send = :selectedUserId) OR
+                            (m.id_user = :selectedUserId AND m.id_user_send = :id_user)
+                        ORDER BY m.date_heure";
 
-            $queryInsertMessage="INSERT INTO messages (id_user, id_user_send, date_heure, content) 
-                                VALUES (:userId, :userIdSend, :dateHeure, :content)
-                                ON DUPLICATE KEY UPDATE content = :content, date_heure = :dateHeure";
-            $stmtInsertMessage = $db->prepare($queryInsertMessage);
-            $stmtInsertMessage->bindParam(':userId', $userId, PDO::PARAM_INT);
-            $stmtInsertMessage->bindParam(':userIdSend', $userId, PDO::PARAM_INT);
-            $stmtInsertMessage->bindParam(':dateHeure', $date_heure, PDO::PARAM_STR);
-            $stmtInsertMessage->bindParam(':content', $messageContent, PDO::PARAM_STR);
-            $stmtInsertMessage->execute();
-
-            header('Location: msg.php');
-            exit();
-        }
+        $stmtMessages = $db->prepare($queryMessages);
+        $stmtMessages->bindParam(':id_user', $userId, PDO::PARAM_INT); // Remplace $userId par l'ID de l'utilisateur actuel
+        $stmtMessages->bindParam(':selectedUserId', $selectedUserId, PDO::PARAM_INT);
+        $stmtMessages->execute();
+        $messages = $stmtMessages->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        // Redirige vers la page précédente si l'utilisateur sélectionné n'existe pas
+        header('Location: list_msg.php');
+        exit();
     }
+} else {
+    // Redirige vers la page précédente si aucun utilisateur n'a été sélectionné
+    header('Location: list_msg.php');
+    exit();
 }
-?>

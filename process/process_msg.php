@@ -1,32 +1,35 @@
 <?php
-require_once('../utils/db-connect.php');
+require_once('utils/db-connect.php');
+session_start();
+$pseudoValue = $_SESSION['pseudo'];
 
-$pdostmt = $db->prepare('SELECT users.pseudo, users.avatar, messages.content, messages.date_heure, messages.id_user_send 
-                        FROM users INNER JOIN messages ON users.id_user = messages.id_user');
-$pdostmt->execute();
-$chat = $pdostmt->fetchAll(PDO::FETCH_ASSOC);
+$queryUserId = "SELECT id_user FROM users WHERE pseudo = :pseudo";
+$stmtUserId = $db->prepare($queryUserId);
+$stmtUserId->bindParam(':pseudo', $pseudoValue, PDO::PARAM_STR);
+$stmtUserId->execute();
+
+$resultUserId = $stmtUserId->fetch(PDO::FETCH_ASSOC);
+if ($resultUserId !== false && !empty($resultUserId["id_user"])) {
+    $userId = $resultUserId["id_user"];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['message']) && !empty($_POST['message'])) {
+            $messageContent = $_POST['message'];
+            $date_heure = date('Y-m-d H:i:s');
+
+            $queryInsertMessage="INSERT INTO messages (id_user, id_user_send, date_heure, content) 
+                                VALUES (:userId, :userIdSend, :dateHeure, :content)
+                                ON DUPLICATE KEY UPDATE content = :content, date_heure = :dateHeure";
+            $stmtInsertMessage = $db->prepare($queryInsertMessage);
+            $stmtInsertMessage->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmtInsertMessage->bindParam(':userIdSend', $userId, PDO::PARAM_INT);
+            $stmtInsertMessage->bindParam(':dateHeure', $date_heure, PDO::PARAM_STR);
+            $stmtInsertMessage->bindParam(':content', $messageContent, PDO::PARAM_STR);
+            $stmtInsertMessage->execute();
+
+            header('Location: msg.php');
+            exit();
+        }
+    }
+}
 ?>
-<section class="container d-flex">
-    <div>
-        <?php foreach ($chat as $message) { ?>
-            <div>
-                <p> <?= $message['pseudo'] ?> </p>
-            </div>
-            <div>
-                <p> <?= $message['content'] ?> </p>
-            </div>
-            <div>
-                <p> <?= $message['date_heure'] ?> </p>
-            </div>
-            <div>
-            <p> ID de l'expéditeur: <?= $message['id_user_send'] ?> </p>
-            </div>
-        <?php } ?>
-    </div>
-    <div>
-        <form method="POST">
-            <input type="text" name="message" placeholder="Votre message">
-            <button type="submit">Envoyer</button>
-        </form>
-    </div>
-</section>

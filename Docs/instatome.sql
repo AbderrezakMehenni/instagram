@@ -75,11 +75,13 @@ CREATE TABLE IF NOT EXISTS `likes` (
 
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
+  `id_message` bigint NOT NULL AUTO_INCREMENT,
   `id_user` bigint NOT NULL,
   `id_user_send` bigint NOT NULL,
   `date_heure` datetime NOT NULL,
   `content` text,
-  PRIMARY KEY (`id_user`,`id_user_send`),
+  PRIMARY KEY (`id_message`),
+  KEY `id_user` (`id_user`),
   KEY `id_user_send` (`id_user_send`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

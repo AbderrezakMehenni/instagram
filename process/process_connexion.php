@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // si la requête est de type POST
         session_start();
         $pseudo = $_POST['pseudo']; // on récupère le pseudo
         $mdp = $_POST['mdp']; // on récupère le mdp
+    
 
         $query = "SELECT * FROM users WHERE pseudo = :pseudo AND mdp = SHA1(:mdp)"; // recherche de l'utilisateur
         $stmt = $db->prepare($query);
@@ -20,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // si la requête est de type POST
         if (count($result) > 0) { // si l'utilisateur existe déjà
             $_SESSION['pseudo'] = $pseudo; // on enregistre le pseudo dans la session
             $_SESSION['mdp'] = $mdp; // on enregistre le mdp dans la session
+            $_SESSION['id_user'] = $id_user; // on enregistre l' id_user dans la session
+            
             // var_dump($_SESSION);
             header("Location: ../accueil.php");
         } else { // si l'utilisateur n'existe pas
@@ -30,6 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // si la requête est de type POST
             $stmt->execute();
             $_SESSION['pseudo'] = $pseudo; // on enregistre le pseudo dans la session
             $_SESSION['mdp'] = $mdp; // on enregistre le mdp dans la session
+            $_SESSION['id_user'] = $id_user; // on enregistre l' id_user dans la session
+
             // var_dump($_SESSION);
             header("Location: ../accueil.php");
             exit();

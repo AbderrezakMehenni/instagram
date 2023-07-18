@@ -4,6 +4,7 @@ require_once('../utils/db-connect.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { // si la requête est de type POST
     if(!empty($_POST['pseudo']) && !empty($_POST['mdp'])) { // si le pseudo est différent de vide
         session_start();
+        
         $pseudo = $_POST['pseudo']; // on récupère le pseudo
         $mdp = $_POST['mdp']; // on récupère le mdp
     

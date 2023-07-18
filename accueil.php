@@ -1,5 +1,7 @@
 <?php
+require_once('utils/db-connect.php');
 include_once('partials/header.php');
+session_start();
 ?>
 
 <section class="container">
@@ -35,36 +37,7 @@ include_once('partials/header.php');
         </div>
     </div>
 </section>
-<article>
-    <div>
-        <div>
-            <!-- avatar -->
-        </div>
-        <div>
-            <!-- pseudo et date -->
-        </div>
-        <div>
-            <!-- burger -->
-        </div>
-    </div>
-    <div>
-        <!-- <p>contenu</p> -->
-    </div>
-    <div>
-        <div>
-            <!-- svg -->
-        </div>
-        <div>
-            <!-- like -->
-        </div>
-        <div>
-            <!-- commentaire du contenu -->
-        </div>
-        <div>
-            <!-- commentaire des autres users (possibilité de liker un commentaire) -->
-        </div>
-    </div>
-</article>
+
 <footer>
     <?php
     include_once('./partials/navbar.php');

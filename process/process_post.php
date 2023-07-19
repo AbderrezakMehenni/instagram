@@ -168,7 +168,7 @@ function createNewPost() {
     if ($mediaIsValid && $descriptionIsValid && $tagsIsValid) {
         $targetFile = $uploadDir . basename($_FILES["media"]["name"]);
 
-        if (in_array(pathinfo($targetFile, PATHINFO_EXTENSION), $validExtensions)) {
+        if (in_array(strtolower(pathinfo($targetFile, PATHINFO_EXTENSION)), $validExtensions)) {
             $dbInsertStatus = dbInsertManager(
                 $targetFile,
                 htmlspecialchars($_POST['description']),

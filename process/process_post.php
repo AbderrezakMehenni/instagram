@@ -159,7 +159,7 @@ function dbInsertManager($media, $description, $tags, $user) {
 * */
 function createNewPost() {
     $validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
-    $uploadDir = '../assets/images/';
+    $uploadDir = '../assets/post/';
 
     $mediaIsValid = (isset($_FILES['media']) && !empty($_FILES['media']));
     $descriptionIsValid = (isset($_POST['description']) && !empty($_POST['description']));
@@ -177,7 +177,7 @@ function createNewPost() {
             );
 
             if ($dbInsertStatus === 0) {
-                if (move_uploaded_file($_FILES["media"]["name"], $targetFile)) {
+                if (move_uploaded_file($_FILES["media"]["tmp_name"], $targetFile)) {
                     header('Location:../profil.php?newpost=true');
                 } else {
                     header('Location:../post.php?newpost=false&status=76');

@@ -10,8 +10,8 @@ $queryUsersMessages="SELECT DISTINCT u.id_user, u.pseudo
                     WHERE m.id_user = :userId";
 
 $stmtUsersMessages = $db->prepare($queryUsersMessages);
-$stmtUsersMessages->bindParam(':userId', $userId, PDO::PARAM_INT); // Remplace $userId par l'ID de l'utilisateur actuel
+$stmtUsersMessages->bindParam(':userId', $idUserValue, PDO::PARAM_INT); // Remplace $userId par l'ID de l'utilisateur actuel
 $stmtUsersMessages->execute();
 
-$usersMessages = $stmtUsersMessages->fetchAll(PDO::FETCH_ASSOC);
+$userMessages = $stmtUsersMessages->fetchAll(PDO::FETCH_ASSOC);
 ?>

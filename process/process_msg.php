@@ -24,7 +24,7 @@ if (isset($_GET['id_user'])) {
                         ORDER BY m.date_heure";
 
         $stmtMessages = $db->prepare($queryMessages);
-        $stmtMessages->bindParam(':id_user', $userId, PDO::PARAM_INT); // Remplace $userId par l'ID de l'utilisateur actuel
+        $stmtMessages->bindParam(':id_user', $pseudoValue, PDO::PARAM_INT); // Remplace $userId par l'ID de l'utilisateur actuel
         $stmtMessages->bindParam(':selectedUserId', $selectedUserId, PDO::PARAM_INT);
         $stmtMessages->execute();
         $messages = $stmtMessages->fetchAll(PDO::FETCH_ASSOC);

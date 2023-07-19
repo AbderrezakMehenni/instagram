@@ -1,14 +1,19 @@
 <?php
 include_once('process/process_list_msg.php');
+
+include_once('partials/header.php');
 ?>
 <section>
     <ul>
-        <?php foreach ($usersMessages as $user) { ?>
+        <?php foreach ($userMessages as $user) { ?>
             <li>
-                <a href="msg.php?userId=<?php $user['id_user']; ?>">
-                    <?php $user['pseudo']; ?>
+                <a class="text-white" href="msg.php?id_user=<?= $user['id_user']; ?>">
+                <?php echo $user['pseudo']; ?>
                 </a>
             </li>
         <?php } ?>
     </ul>
 </section>
+<?php
+    include_once ('partials/navbar.php');
+?>

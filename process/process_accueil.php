@@ -1,73 +1,19 @@
 <?php
-require_once('../utils/db-connect.php');
-session_start();
+require_once('./utils/db-connect.php');
 
-$sql = "SELECT * 
-    FROM users 
-    JOIN follow ON users.id_user = follow.id_user";
 
-$stmt = $db->prepare($sql);
-$stmt->execute();
-$user = $stmt->fetchAll(PDO::FETCH_ASSOC); // On récupère la question au hasard
-
-// var_dump($user);
-// var_dump($_SESSION['pseudo']);
-
-$sql = "SELECT * 
-    FROM follow 
-    JOIN users ON follow.id_user_follow = users.id_user";
+$sql = "SELECT id_post, avatar, pseudo, photo, description, date_heure FROM posts
+        JOIN follow ON follow.id_user_follow = posts.id_user
+        JOIN users ON users.id_user = follow.id_user_follow
+        WHERE follow.id_user = ?
+        ORDER BY date_heure DESC"; // TU ES UN DINGUE 
 
 $stmt = $db->prepare($sql);
-$stmt->execute();
-$follow = $stmt->fetchAll(PDO::FETCH_ASSOC); // On récupère la question au hasard
+$stmt->execute([
+    $_SESSION['id_user']
+]);
+$postsfollow = $stmt->fetchAll(PDO::FETCH_ASSOC);  // on récupère toutes les lignes de la table users
 
-var_dump($follow);
+var_dump($postsfollow);
 
-$var= [];
-
-foreach($follow as $foll) {
-        $sql = "SELECT * 
-            FROM posts 
-            JOIN users ON posts.id_user = users.id_user
-            WHERE posts.id_user = ?";    
-
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$foll['id_user_follow']]);
-        $post = $stmt->fetch(PDO::FETCH_ASSOC); // On récupère la question au hasard
-
-
-array_push($var, $post);
-var_dump($var);
-}
 ?>
-
-<article>
-    <div>
-        <div>
-            <!-- avatar -->
-        </div>
-        <div>
-            <?php echo $var[0]['photo'] ?>
-        </div>
-        <div>
-            <!-- burger -->
-        </div>
-    </div>
-    <div>
-        <!-- <p>contenu</p> -->
-    </div>
-    <div>
-        <div>
-            <!-- svg -->
-        </div>
-        <div>
-            <!-- like -->
-        </div>
-        <div>
-            <!-- commentaire du contenu -->
-        </div>
-        <div>
-            <!-- commentaire des autres users (possibilité de liker un commentaire) -->
-        </div>
-    </div>
-</article>

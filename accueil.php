@@ -19,6 +19,49 @@ session_start();
         </div>
     </div>
 </section>
+
+<?php
+include_once('./process/process_accueil.php');
+
+foreach ($postsfollow as $post) {
+?>
+
+    <article class="container">
+        <div class="row">
+            <div class="d-flex user align-item-center">
+                <div class=" rounded-circle avatar d-flex align-items-center">
+                    <?php echo '<img class="rounded-circle d-flex align-items-center img" src="' . $post['avatar'] . '" alt="Image">'; ?>
+                </div>
+                <div class="d-flex align-items-center">
+                    <?php echo $post['pseudo']; ?>
+                </div>
+                <div>
+                    <!-- burger -->
+                </div>
+            </div>
+        </div>
+        <div  class="photo" >
+            <?php echo '<img src="' . $post['photo'] . '" alt="Image">' ?>
+        </div>
+        <div>
+            <div>
+                <a href="../api.php?id=<?php echo $post['id_post']; ?>"><img src="../assets/svg/heart.svg" alt=""></a>
+            </div>
+            <div>
+                <!-- like -->
+            </div>
+            <div>
+                <?php echo '<p>' . $post['description'] . "</p>  <p>  " . $post['date_heure'] . '</p>'; ?>
+            </div>
+            <div>
+                <!-- commentaire des autres users (possibilité de liker un commentaire) -->
+            </div>
+        </div>
+    </article>
+<?php
+}
+?>
+
 <section class="container">
     <div class="row d-flex p-3 mb-2 text-black align-items-center">
         <div class="d-flex justify-content-center">
@@ -37,6 +80,7 @@ session_start();
         </div>
     </div>
 </section>
+
 
 <footer>
     <?php

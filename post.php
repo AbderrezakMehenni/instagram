@@ -13,4 +13,4 @@
     <input type="submit" name="addNewPost" value="Poster">
 </form>
 
-<?php include('partials/footer.php'); ?>
+<?php include('partials/navbar.php'); ?>

@@ -7,7 +7,7 @@ include_once('partials/header.php');
     <ul>
         <?php foreach ($userMessages as $user) { ?>
             <li>
-                <a class="text-white" href="msg.php?id_user=<?= $user['id_user']; ?>">
+                <a href="msg.php?id_user=<?= $user['id_user']; ?>#basdepage">
                 <?php echo $user['pseudo']; ?>
                 </a>
             </li>

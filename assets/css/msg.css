@@ -101,3 +101,7 @@ button {
 button:hover {
     background-color: #2272b1;
 }
+.paddingx {
+    padding-left: 5%;
+    padding-right: 5%;
+}

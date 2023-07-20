@@ -15,16 +15,18 @@ include_once('process/process_msg.php');
 </head>
 
 <body>
-    <section>
-        <div class="header">
+    <section class="container paddingx">
+        <div class="header d-flex">
+            <a class="pe-2" href="./list_msg.php"><img src="./assets/svg/caret-left.svg" alt=""></a>
             <?php if (count($messages) > 0) { ?>
-                <h1><?= $messages[0]['pseudo']; ?></h1>
+                <img class="pdp" src="assets/images/<?= $messages[1]['avatar']; ?>">
+                <h1><?= $messages[1]['pseudo']; ?></h1>
             <?php } else { ?>
                 <h1>Aucun message disponible.</h1>
             <?php } ?>
         </div>
         <?php foreach ($messages as $message) { ?>
-            <div class="message <?php echo ($message['id_user_send'] == $_SESSION['id_user']) ? 'message-receive' : 'message-send'; ?>">
+            <div class="message <?php echo ($message['id_user_send'] == $_SESSION['id_user']) ? 'message-send' : 'message-receive'; ?>">
                 <img class="pdp" src="assets/images/<?= $message['avatar']; ?>">
                 <div class="content">
                     <?= $message['content']; ?>

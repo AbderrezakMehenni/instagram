@@ -1,4 +1,12 @@
-<?php include('partials/header.php'); ?>
+<?php
+
+session_start();
+
+if (count($_SESSION) === 0) header('Location:index.php');
+
+include('partials/header.php');
+
+?>
 
 <form action="process/process_post.php" method="POST"  enctype="multipart/form-data">
     <label for="media">Votre média :</label>

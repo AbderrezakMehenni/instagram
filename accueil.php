@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+if (count($_SESSION) === 0) header('Location:index.php');
+
 require_once('utils/db-connect.php');
 include_once('partials/header.php');
 ?>

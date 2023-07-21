@@ -21,11 +21,10 @@ include('partials/header.php');
 
 if ($userAndPosts['user']) {
 ?>
-<section class="d-flex justify-content-start align-items-center border-bottom mb-3">
-    <div clas="rounded-circle border border-2" style="width:48px; height:48px;">
-        <img class="rounded-circle" src="assets/images/<?= $userAndPosts['user']['avatar']; ?>" alt="profile photo" style="width:100%;">
-    </div>
+<section class="d-flex align-item-center">
+    <img class="pdprofil" src="assets/images/<?= $userAndPosts['user']['avatar']; ?>" alt="">
     <h1 class="pt-2"><?= $userAndPosts['user']['pseudo']; ?></h1>
+</section>
 <?php if (!isset($_GET['user'])) { ?>
     <button class="btn ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
@@ -53,7 +52,6 @@ if ($userAndPosts['user']) {
         </div>
     </div>
 <?php } ?>
-</section>
 <?php
 
 }
@@ -61,21 +59,21 @@ if ($userAndPosts['user']) {
 if (count($posts) > 0) {
     // var_dump($posts);
 ?>
-<section class="vh-100 d-flex flex-row flex-wrap justify-content-start align-items-start align-content-start">
-
-<?php
-foreach($posts as $post) {
-?>
-
-<a href="profil_post.php?post=<?= $post['id_post'] ?>" id="post_<?= $post['id_post'] ?>" class="d-block overflow-hidden" style="width:calc(100vw/3); height:calc(100vw/3);">
-    <img src="assets/post/<?= $post['photo'] ?>" class="w-100">
-</a>
-
-<?php
-} // foreach end
-?>
-
-</section>
+    <section class="vh-100 d-flex flex-row flex-wrap justify-content-start align-items-start align-content-start">
+        <div class="row">
+            <?php
+            foreach ($posts as $post) {
+            ?>
+                <div class="col-4">
+                    <a href="profil_post.php?post=<?= $post['id_post'] ?>" id="post_<?= $post['id_post'] ?>" class="d-block overflow-hidden" style="width:calc(100vw/3); height:calc(100vw/3);">
+                        <img src="assets/post/<?= $post['photo'] ?>" class="imgPost card">
+                    </a>
+                </div>
+            <?php
+            } // foreach end
+            ?>
+        </div>
+    </section>
 
 <?php
 
@@ -83,9 +81,9 @@ foreach($posts as $post) {
 
 ?>
 
-<div>
-    <p>Vous n'avez encore rien poster pour le moment.</p>
-</div>
+    <div class="text-center">
+        <p>Vous n'avez encore rien poster pour le moment.</p>
+    </div>
 
 <?php
 

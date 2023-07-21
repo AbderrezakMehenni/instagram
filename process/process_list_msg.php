@@ -1,6 +1,6 @@
 <?php
 require_once('utils/db-connect.php');
-session_start();
+
 $idUserValue = $_SESSION['id_user'];
 
 // Sélectionne le pseudo et l'id pour afficher ses messages

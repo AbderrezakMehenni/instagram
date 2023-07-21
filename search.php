@@ -1,11 +1,12 @@
 <?php
 
+session_start();
+
+if (count($_SESSION) === 0) header('Location:index.php');
+
 include('partials/header.php');
 
 require_once('process/process_search.php');
-
-
-
 
 ?>
 <section class="container">

@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include_once('process/process_msg.php');
 
 // var_dump($messages);

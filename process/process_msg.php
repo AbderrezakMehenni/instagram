@@ -1,6 +1,6 @@
 <?php
 require_once('utils/db-connect.php');
-session_start();
+
 // Récupère l'ID de l'utilisateur sélectionné depuis l'URL
 if (isset($_GET['id_user'])) { 
     // Traiter le formulaire et enregistrer le message

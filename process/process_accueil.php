@@ -27,6 +27,6 @@ $stmt->execute([
 ]);
 $likesfollow = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-var_dump($likesfollow);
+// var_dump($likesfollow);
 
 ?>

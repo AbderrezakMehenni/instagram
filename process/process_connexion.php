@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // si la requête est de type POST
             $_SESSION['mdp'] = $mdp; // on enregistre le mdp dans la session
             $_SESSION['id_user'] = $id_user; // on enregistre l' id_user dans la session
 
-            // var_dump($_SESSION);
+            
             header("Location: ../accueil.php");
             exit();
         }

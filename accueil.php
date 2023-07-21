@@ -1,8 +1,8 @@
 <?php
+session_start();
 require_once('utils/db-connect.php');
 include_once('partials/header.php');
-session_start();
-;
+
 ?>
 
 <section class="container">
@@ -14,7 +14,7 @@ session_start();
         </div>
         <div class="col-6 d-flex justify-content-end m-0 p-0">
             <ul class="col-6 d-flex justify-content-around m-0 p-0">
-                <li><a href="#" class=""><img src="./assets/svg/heart.svg" alt="heart"></a></li>
+                <li><a href="#" class=""><img src="./assets/svg/heartVide.svg" alt="heart"></a></li>
                 <li><a href="./list_msg.php"><img src="./assets/svg/send.svg" alt="send"></i></a></li>
             </ul>
         </div>
@@ -27,7 +27,7 @@ include_once('./process/process_accueil.php');
 foreach ($postsfollow as $post) {
 ?>
 
-    <article class="container">
+    <article class="container" data-article="<?php echo $post['id_post']; ?>">
         <div class="row">
             <div class="d-flex user align-item-center">
                 <div class=" rounded-circle avatar d-flex align-items-center">
@@ -41,12 +41,12 @@ foreach ($postsfollow as $post) {
                 </div>
             </div>
         </div>
-        <div  class="photo" >
+        <div class="photo">
             <?php echo '<img src="' . $post['photo'] . '" alt="Image">' ?>
         </div>
         <div>
             <div>
-                <?php 
+                <?php
                 $query = 'SELECT * FROM likes WHERE id_user=:id_user AND id_post=:id_post';
                 $request = $db->prepare($query);
                 $request->execute([
@@ -55,14 +55,15 @@ foreach ($postsfollow as $post) {
                 ]);
                 $isLike = $request->fetch();
                 ?>
-                <?php  if ($isLike) { ?>                 
-                    <img class="heartVide" src="../assets/svg/heartPlein.svg" alt="HeartPlein" data-post="<?php echo $post['id_post']; ?>">  
+                <?php if ($isLike) { ?>
+                    <img class="heartVide" src="../assets/svg/heartPlein.svg" alt="HeartPlein" data-post="<?php echo $post['id_post']; ?>">
                 <?php } else { ?>
                     <img class="heartVide" src="../assets/svg/heartVide.svg" alt="HeartVide" data-post="<?php echo $post['id_post']; ?>">
                 <?php } ?>
+                <span class="like-counter m-5" data-article="<?php echo $post['id_post']; ?>"></span>
             </div>
             <div>
-                <!-- like -->
+                
             </div>
             <div>
                 <?php echo '<p>' . $post['description'] . "</p>  <p>  " . $post['date_heure'] . '</p>'; ?>
@@ -76,18 +77,7 @@ foreach ($postsfollow as $post) {
 }
 ?>
 
-<section class="container">
-    <div class="row d-flex p-3 mb-2 text-black align-items-center">
-        <div class="d-flex justify-content-center">
-            <ul class="col-6 m-0 p-0 d-flex justify-content-between ">
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-            </ul>
-        </div>
-    </div>
-</section>
+
 <section class="container">
     <div class="row d-flex p-3 mb-2 text-white align-items-center">
         <div class="d-flex justify-content-center">

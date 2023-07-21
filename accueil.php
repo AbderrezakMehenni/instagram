@@ -62,6 +62,7 @@ foreach ($postsfollow as $post) {
                 <?php } else { ?>
                     <img class="heartVide" src="../assets/svg/heartVide.svg" alt="HeartVide" data-post="<?php echo $post['id_post']; ?>">
                 <?php } ?>
+                <span data-article="<?php echo $post['id_post']; ?>"></span>
             </div>
             <div>
                 <!-- like -->

@@ -5,8 +5,6 @@ session_start();
 if (count($_SESSION) === 0) header('Location:index.php');
 
 include_once('partials/header.php');
-session_start();
-;
 ?>
 
 <section class="container">
@@ -46,7 +44,7 @@ foreach ($postsfollow as $post) {
             </div>
         </div>
         <div  class="photo" >
-            <?php echo '<img src="' . $post['photo'] . '" alt="Image">' ?>
+            <img src="assets/post/<?= $post['photo'] ?>">
         </div>
         <div>
             <div>
@@ -79,19 +77,6 @@ foreach ($postsfollow as $post) {
 <?php
 }
 ?>
-
-<section class="container">
-    <div class="row d-flex p-3 mb-2 text-black align-items-center">
-        <div class="d-flex justify-content-center">
-            <ul class="col-6 m-0 p-0 d-flex justify-content-between ">
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-            </ul>
-        </div>
-    </div>
-</section>
 <section class="container">
     <div class="row d-flex p-3 mb-2 text-white align-items-center">
         <div class="d-flex justify-content-center">

@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+if (count($_SESSION) === 0) header('Location:index.php');
+
 include_once('process/process_list_msg.php');
 
 include_once('partials/header.php');

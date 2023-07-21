@@ -16,3 +16,9 @@ ul {
     width: 1350px;
     height: 500px;
 }
+.pdprofil {
+    width: 10%;
+    height: 10%;
+    border-radius: 100%;
+    justify-content: flex-end;
+}

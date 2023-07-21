@@ -14,8 +14,8 @@ session_start();
         </div>
         <div class="col-6 d-flex justify-content-end m-0 p-0">
             <ul class="col-6 d-flex justify-content-around m-0 p-0">
-                <li><a href="#" class=""><img src="./assets/svg/heartVide.svg" alt="heart"></a></li>
-                <li><a href="#"><img src="./assets/svg/send.svg" alt="send"></i></a></li>
+                <li><a href="#" class=""><img src="./assets/svg/heart.svg" alt="heart"></a></li>
+                <li><a href="./list_msg.php"><img src="./assets/svg/send.svg" alt="send"></i></a></li>
             </ul>
         </div>
     </div>

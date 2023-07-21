@@ -1,8 +1,7 @@
 <?php
+session_start();
 require_once('utils/db-connect.php');
 include_once('partials/header.php');
-session_start();
-;
 ?>
 
 <section class="container">
@@ -14,7 +13,7 @@ session_start();
         </div>
         <div class="col-6 d-flex justify-content-end m-0 p-0">
             <ul class="col-6 d-flex justify-content-around m-0 p-0">
-                <li><a href="#" class=""><img src="./assets/svg/heart.svg" alt="heart"></a></li>
+                <li><a href="#" class=""><img src="./assets/svg/heartVide.svg" alt="heart"></a></li>
                 <li><a href="./list_msg.php"><img src="./assets/svg/send.svg" alt="send"></i></a></li>
             </ul>
         </div>
@@ -75,19 +74,6 @@ foreach ($postsfollow as $post) {
 <?php
 }
 ?>
-
-<section class="container">
-    <div class="row d-flex p-3 mb-2 text-black align-items-center">
-        <div class="d-flex justify-content-center">
-            <ul class="col-6 m-0 p-0 d-flex justify-content-between ">
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-                <a href="" class="rounded-circle profil text-decoration-none text-black">img</a>
-            </ul>
-        </div>
-    </div>
-</section>
 <section class="container">
     <div class="row d-flex p-3 mb-2 text-white align-items-center">
         <div class="d-flex justify-content-center">
